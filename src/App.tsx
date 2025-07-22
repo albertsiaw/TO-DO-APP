@@ -4,7 +4,7 @@ import { Outlet } from '@tanstack/react-router';
 import { pb } from './lib/pocketbase';
 import { queryClient } from './lib/tanstack-query';
 import { Toaster, toast } from 'sonner';
-import { Button } from './components/ui/button'; // Shadcn Button component
+import { Button } from './components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,48 +12,37 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from './components/ui/dropdown-menu'; // Shadcn DropdownMenu components
-import { LogOut, User, Home, ListTodo, Users } from 'lucide-react'; // Lucide icons
-import type { RecordModel } from 'pocketbase'; // Import RecordModel for Pocketbase user type
- // Import RecordModel for Pocketbase user type
+} from './components/ui/dropdown-menu'; 
+import { LogOut, User, Home, ListTodo, Users } from 'lucide-react'; 
+import type { RecordModel } from 'pocketbase'; 
 
-// Define a type for the authenticated user model from Pocketbase
-// This extends RecordModel to include common user fields like email and name
 interface AuthUser extends RecordModel {
   email: string;
-  name?: string; // Optional name field
-  // Add any other custom fields you have on your Pocketbase 'users' collection
+  name?: string; 
+  
 }
 
-// Main application component
 function App() {
-  // Initialize user state with the current Pocketbase auth model, cast to AuthUser or null
   const [user, setUser] = useState<AuthUser | null>(pb.authStore.model as AuthUser | null);
   
-  // Effect to listen for Pocketbase auth state changes
   useEffect(() => {
-    // Subscribe to auth store changes
     const unsubscribe = pb.authStore.onChange(() => {
-      // Update user state whenever the auth store changes
       setUser(pb.authStore.model as AuthUser | null);
-      // Invalidate all queries related to user data when auth state changes
       queryClient.invalidateQueries();
     });
 
-    // Clean up the subscription on component unmount
     return () => unsubscribe();
   }, []);
 
-  // Handle user logout
+  
   const handleLogout = async () => {
     try {
-      pb.authStore.clear(); // Clear the authentication token
+      pb.authStore.clear();
       toast.success("Logged out", {
         description: "You have been successfully logged out."
       });
       window.location.reload();
-      // The router's protected routes will handle redirection to login page
-    } catch (error: any) { // Type 'any' for error for now, can be refined
+    } catch (error: any) { 
       console.error("Logout failed:", error);
       toast.error("Logout failed", {
         description: error.message || "An unexpected error occurred during logout."
@@ -125,13 +114,9 @@ function App() {
           )}
         </div>
       </header>
-
-      {/* Main content area, rendered by Tanstack Router */}
       <main className="flex-grow container mx-auto p-4 md:p-6">
         <Outlet />
       </main>
-
-      {/* Sonner Toaster for displaying notifications */}
       <Toaster />
     </div>
   );

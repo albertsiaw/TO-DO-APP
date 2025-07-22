@@ -12,10 +12,7 @@ import {
   CardTitle,
 } from '../components/ui/card';
 
-//
-
  import { useForgotPasswordForm } from '../hooks/useForgotPasswordForm';
-// ...existing imports...
 
 function ForgotPasswordPage() {
   const form = useForgotPasswordForm();

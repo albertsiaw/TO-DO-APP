@@ -81,7 +81,6 @@ function GroupManagementPage() {
   }
 
   const groups = groupsQuery.data;
-  const allUsers = allUsersQuery.data;
   const groupMembers = groupMembersQuery.data;
 
   return (

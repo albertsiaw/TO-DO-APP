@@ -217,7 +217,9 @@ function PublicTodosPage() {
               </div>
               <div className="text-sm text-gray-500 mt-2 flex items-center justify-between">
                 <div>
-                  Authored by: <span className="font-semibold">{todo.expand?.author?.email || 'Unknown'}</span>
+                  Authored by: <span className="font-semibold">
+                    {todo.expand?.author?.name || todo.expand?.author?.email || 'Unknown'}
+                  </span>
                 </div>
                 {todo.last_edited_at && (
                   <div className="flex items-center gap-1">
